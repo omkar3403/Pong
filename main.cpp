@@ -283,7 +283,6 @@ void GameScreen()
 			DrawText(leftScore, GetScreenWidth() / 2 / 2, 10, 80, WHITE);
 			DrawText(rightScore, GetScreenWidth() / 4 * 3, 10, 80, WHITE);
 
-
 			// Win Text Show
 			// if (winnerText)
 			// {
@@ -304,6 +303,9 @@ void StartScreen()
 {
 	const char *Title = "PONG";
 	int textWidth = MeasureText(Title, 100);
+
+	const char *Message = "Press < Esc > to Quit\n\nPress < F > to toggle FullScreen";
+	int messageWidth = MeasureText(Message, 20);
 
 
 	int speedDirection1 = 400, speedDirection2 = -400;
@@ -361,22 +363,31 @@ void StartScreen()
 		}
 
 
-		if (IsKeyPressed(KEY_S))
+		if (IsKeyPressed(KEY_SPACE))
+		{
+			GameScreen();
+		}
+		if (IsGestureDetected(GESTURE_TAP))
 		{
 			GameScreen();
 		}
 
 		BeginDrawing();
-			ClearBackground(RAYWHITE);
+			ClearBackground(WHITE);
 
 			DrawRectangle(20, 20, GetScreenWidth() - 40, GetScreenHeight() - 40, BLACK);
 
 			
 			DrawText(Title, GetScreenWidth() / 2 - textWidth / 2, GetScreenHeight() / 2 - textWidth / 2, 100, RAYWHITE);
 
+			DrawText(Message, 30, GetScreenHeight() - messageWidth / 4, 20, WHITE);
+
+			DrawText("< SHIFT > = UP\n\n< CTRL > = DOWN", GetScreenWidth() - MeasureText("< SHIFT > = UP\n\n< CTRL > = DOWN", 20) - 30, GetScreenHeight() - MeasureText("< SHIFT > = UP\n\n< CTRL > = DOWN", 20) / 2, 20, WHITE);
+
+			DrawText("START", GetScreenWidth() / 2 - MeasureText("START", 30) / 2, GetScreenHeight() / 2, 30, WHITE);
+
 			// TODO: put a start button
 			
-			// TODO: Collide the Ball with the text
 
 			ball.Draw();
 
