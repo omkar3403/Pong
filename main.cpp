@@ -1,12 +1,10 @@
-// TODO: ball direction..........
-
 #include "raylib.h"
 #include <cstdio>
+
 
 const char *winnerText = nullptr;
 
 // BALL Structure
-
 struct Ball
 {
 	float x, y;
@@ -21,9 +19,7 @@ struct Ball
 };
 struct Ball ball;
 
-
 // PADDLE Structure
-
 struct Paddle
 {
 	float x, y;
@@ -46,7 +42,6 @@ struct Paddle rightPaddle;
 
 
 // Border Structure
-
 struct Border
 {
 	float x, y;
@@ -66,26 +61,21 @@ struct Border topBorder;
 struct Border bottomBorder;
 
 
+// Main Game Screen
 void GameScreen()
 {
 	// Winner Text Variable
-	
-
 	int speedDirection1 = 400, speedDirection2 = -400;
 	int randValueX = GetRandomValue(0, 2);
 	int speedDirX = randValueX == 0 ? speedDirection1: speedDirection2;
 	int randValueY = GetRandomValue(0, 2);
 	int speedDirY = randValueY == 0 ? speedDirection1: speedDirection2;
 
-
 	// Player Score
-
 	int RS = 0;
 	int LS = 0;
 
-
 	// Ball 
-
 	ball.x = GetScreenWidth() / 2.0f;
 	ball.y = GetScreenHeight() / 2.0f;
 	ball.radius = 5;
@@ -93,7 +83,6 @@ void GameScreen()
 	ball.speedY = speedDirY;
 
 	// Left Paddle
-
 	leftPaddle.x = 50;
 	leftPaddle.y = GetScreenHeight() / 2;
 	leftPaddle.width = 10;
@@ -102,9 +91,7 @@ void GameScreen()
 	leftPaddle.maxY = GetScreenHeight() - leftPaddle.height;
 	leftPaddle.minY = 0;
 
-
 	// Right Paddle
-
 	rightPaddle.x = GetScreenWidth() - 50;
 	rightPaddle.y = GetScreenHeight() / 2;
 	rightPaddle.width = 10;
@@ -113,25 +100,19 @@ void GameScreen()
 	rightPaddle.maxY = GetScreenHeight() - rightPaddle.height;
 	rightPaddle.minY = 0;
 
-
 	// Top Border
-
 	topBorder.x = 0;
 	topBorder.y = 0;
 	topBorder.width = GetScreenWidth();
 	topBorder.height = 5;
 
-
 	// Bottom Border
-
 	bottomBorder.x = 0;
 	bottomBorder.y = GetScreenHeight() - 5;
 	bottomBorder.width = GetScreenWidth();
 	bottomBorder.height = GetScreenHeight();
 
-
 	// Game Loop
-
 	while(!WindowShouldClose())
 	{
 		// INT score converted to CHAR
@@ -139,7 +120,6 @@ void GameScreen()
 		sprintf(leftScore, "%i", LS);
 		char rightScore[10];
 		sprintf(rightScore, "%i", RS);
-
 
 		// Ball movement
 		if (ball.x == GetScreenWidth() / 2 && ball.y == GetScreenHeight() / 2)
@@ -149,13 +129,10 @@ void GameScreen()
 			randValueY = GetRandomValue(0, 2);
 			speedDirY = randValueY == 0 ? speedDirection1: speedDirection2;
 		}
-
 		ball.x += ball.speedX * GetFrameTime();
 		ball.y += ball.speedY * GetFrameTime();
 
-		
 		// Ball UP and DOWN Collision
-
 		if (ball.y < 0 )
 		{
 			ball.y = 0;
@@ -167,9 +144,7 @@ void GameScreen()
 			ball.speedY *= -1;
 		}
 
-
 		// Paddle Controls
-
 		if (IsKeyDown(KEY_LEFT_SHIFT))
 		{
 			leftPaddle.y -= leftPaddle.speed * GetFrameTime();
@@ -186,7 +161,6 @@ void GameScreen()
 		{
 			rightPaddle.y += rightPaddle.speed * GetFrameTime();
 		}
-
 
 		// Ball and Paddle Collision
 		if (CheckCollisionCircleRec( Vector2{ball.x, ball.y}, ball.radius, leftPaddle.GetRect() ))
@@ -208,7 +182,6 @@ void GameScreen()
 			}
 		}
 
-
 		// Paddle and Border Collision
 		if (CheckCollisionRecs(leftPaddle.GetRect(), topBorder.GetRect() ))
 		{
@@ -227,7 +200,6 @@ void GameScreen()
 			rightPaddle.y = bottomBorder.height - 10;
 		}
 
-
 		// Win Stat
 		if (ball.x < 0)
 		{
@@ -238,9 +210,7 @@ void GameScreen()
 			winnerText = "Left Player Wins!";
 		}
 
-
 		// Ball Reset and Score Counter
-
 		if (winnerText)
 		{
 			if (ball.x < 0)
@@ -258,23 +228,18 @@ void GameScreen()
 			winnerText = nullptr;
 		}
 		
-
 		// Drawing Objects
-
 		BeginDrawing();
 
 			ClearBackground(BLACK);
 			
-
 			// Evironment Objects			
 			topBorder.Draw();
 			bottomBorder.Draw();
 			DrawLine(GetScreenWidth() / 2, 0, GetScreenWidth() / 2, GetScreenHeight(), WHITE);
 
-
 			// Show FPS
-			DrawFPS(GetScreenWidth() /2 - 30, 10);
-
+			//DrawFPS(GetScreenWidth() /2 - 30, 10);
 
 			// Objects
 			ball.Draw();
@@ -296,9 +261,7 @@ void GameScreen()
 }
 
 
-
-// Start Screen...
-
+// Start Screen
 void StartScreen()
 {
 	const char *Title = "PONG";
@@ -307,13 +270,11 @@ void StartScreen()
 	const char *Message = "Press < Esc > to Quit\n\nPress < F > to toggle FullScreen";
 	int messageWidth = MeasureText(Message, 20);
 
-
 	int speedDirection1 = 400, speedDirection2 = -400;
 	int randValueX = GetRandomValue(0, 2);
 	int speedDirX = randValueX == 0 ? speedDirection1: speedDirection2;
 	int randValueY = GetRandomValue(0, 2);
 	int speedDirY = randValueY == 0 ? speedDirection1: speedDirection2;
-
 
 	// Ball 
 	ball.x = GetScreenWidth() / 2.0f;
@@ -322,17 +283,13 @@ void StartScreen()
 	ball.speedX = speedDirX;
 	ball.speedY = speedDirY;
 
-
 	while (!WindowShouldClose())
 	{
 		// Initial ball movement
-
 		ball.x += ball.speedX * GetFrameTime();
 		ball.y += ball.speedY * GetFrameTime();
 
-
 		// Ball UP and DOWN Collision
-
 		if (ball.y < 20 )
 		{
 			ball.y = 20;
@@ -354,14 +311,11 @@ void StartScreen()
 			ball.speedX *= -1;
 		}
 
-
 		// Window Size Control
-
 		if (IsKeyPressed(KEY_F))
 		{
 			ToggleFullscreen();
 		}
-
 
 		if (IsKeyPressed(KEY_SPACE))
 		{
@@ -373,22 +327,13 @@ void StartScreen()
 		}
 
 		BeginDrawing();
+
 			ClearBackground(WHITE);
-
 			DrawRectangle(20, 20, GetScreenWidth() - 40, GetScreenHeight() - 40, BLACK);
-
-			
 			DrawText(Title, GetScreenWidth() / 2 - textWidth / 2, GetScreenHeight() / 2 - textWidth / 2, 100, RAYWHITE);
-
 			DrawText(Message, 30, GetScreenHeight() - messageWidth / 4, 20, WHITE);
-
 			DrawText("< SHIFT > = UP\n\n< CTRL > = DOWN", GetScreenWidth() - MeasureText("< SHIFT > = UP\n\n< CTRL > = DOWN", 20) - 30, GetScreenHeight() - MeasureText("< SHIFT > = UP\n\n< CTRL > = DOWN", 20) / 2, 20, WHITE);
-
 			DrawText("START", GetScreenWidth() / 2 - MeasureText("START", 30) / 2, GetScreenHeight() / 2, 30, WHITE);
-
-			// TODO: put a start button
-			
-
 			ball.Draw();
 
 		EndDrawing();
@@ -396,24 +341,20 @@ void StartScreen()
 	CloseWindow();
 }
 
-// MAIN Function
 
+// MAIN Function
 int main(void)
 {
 	Image icon = LoadImage("./icon.png");
 	const int screenHeight = 1280;
 	const int screenWidth = 720;
 
-
 	// Initalizing window
-
 	InitWindow(screenHeight, screenWidth, "PONG by Omkar");
 	SetWindowState(FLAG_VSYNC_HINT);
 	SetWindowIcon(icon);
 
 	StartScreen();
-	//GameScreen();
-
 
 	CloseWindow();
 	UnloadImage(icon);
