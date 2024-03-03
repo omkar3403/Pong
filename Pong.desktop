@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name = Pong
+Comment = Pong made with raylib and c++.
+Exec = /path/to/my/game/executable
+Icon = /path/to/my/icon.ico
+Terminal = false
+Type = Application
+Categories = Game;

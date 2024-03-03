@@ -1,0 +1,8 @@
+build:
+	g++ main.cpp -Wall -o Pong -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+
+run:
+	./Pong
+
+clean:
+	rm Pong
